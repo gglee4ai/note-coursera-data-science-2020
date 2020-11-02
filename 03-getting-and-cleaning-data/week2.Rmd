@@ -1,0 +1,258 @@
+---
+title: "Week 2"
+output: html_notebook
+---
+
+## Reading from MySQL
+
+```{r}
+library(RMySQL)
+ucscDb <- dbConnect(MySQL(), user = "genome", host = "genome-mysql.cse.ucsc.edu")
+result <- dbGetQuery(ucscDb, "show databases;")
+dbDisconnect(ucscDb)
+```
+
+```{r}
+result
+```
+
+```{r}
+hg19 <- dbConnect(MySQL(), user = "genome", db = "hg19", 
+                  host = "genome-mysql.cse.ucsc.edu")
+allTables <- dbListTables(hg19)
+length(allTables)
+```
+
+
+```{r}
+allTables[1:5]
+```
+
+
+```{r}
+str(allTables)
+```
+
+
+```{r}
+dbListFields(hg19, "affyU133Plus2")
+```
+
+
+```{r}
+dbGetQuery(hg19, "select count(*) from affyU133Plus2")
+```
+
+
+```{r}
+affyData <- dbReadTable(hg19, "affyU133Plus2")
+head(affyData)
+```
+
+
+```{r}
+query <- dbSendQuery(hg19, "select * from affyU133Plus2 where misMatches between 1 and 3")
+affyMis <- fetch(query)
+affyMis
+```
+
+
+```{r}
+quantile(affyMis$misMatches)
+```
+
+
+```{r}
+affyMisSmall <- fetch(query, n = 10) 
+dbClearResult(query)
+```
+
+
+```{r}
+affyMisSmall
+```
+
+```{r}
+dbDisconnect(hg19)
+```
+
+
+
+## Reading HDF5
+
+바이오컨덕터 패키지를 설치해야 해서 안했음.
+
+
+
+
+## Reading from the Web
+
+```{r}
+con <- url("https://scholar.google.com/citations?user=HI-I6C0AAAAJ&hl=en")
+htmlCode <- readLines(con)
+close(con)
+```
+
+
+```{r}
+str(htmlCode)
+```
+
+
+```{r}
+library(XML)
+url <- "https://scholar.google.com/citations?user=HI-I6C0AAAAJ&hl=en"
+html <- htmlTreeParse(url, useInternalNodes = TRUE)
+```
+
+```{r}
+xpathSApply(html, "//title", xmlValue)
+```
+
+```{r}
+xpathSApply(html, "//td[@id='col-citedby']", xmlValue)
+```
+
+
+```{r}
+library(httr)
+html2 <- GET(url)
+content2 <- content(html2, as = "text")
+parsedHtml <- htmlParse(content2, asText = TRUE)
+xpathSApply(parsedHtml, "//title", xmlValue)
+```
+
+
+```{r}
+pg1 <- GET("http://httpbin.org/basic-auth/user/passwd")
+pg1
+```
+
+
+```{r}
+pg2 <- GET("http://httpbin.org/basic-auth/user/passwd",
+           authenticate("user", "passwd"))
+pg2
+```
+
+```{r}
+names(pg2)
+```
+
+
+```{r}
+google <- handle("http://google.com")
+pg1 <- GET(handle=google, path = "/")
+pg2 <- GET(handle=google, path = "search")
+```
+
+
+## Reading From APIs
+
+트위터를 가입해야 해서 안하기로 함
+
+
+
+
+## Reading from other sources
+
+
+
+
+## Quiz
+
+
+### 2
+
+```{r}
+acs <- read.csv("../data/getdata_data_ss06pid.csv")
+acs
+```
+
+```{r}
+detach("package:RMySQL", unload=TRUE)
+library(sqldf)
+```
+
+```{r}
+sqldf("select pwgtp1 from acs where AGEP < 50")
+```
+
+
+### 3
+
+```{r}
+u1 <- unique(acs$AGEP)
+u1
+```
+
+
+```{r}
+u2 <- sqldf("select distinct AGEP from acs")
+u2
+```
+
+
+```{r}
+all(u1 == u2)
+```
+
+
+### 4
+
+```{r}
+url <- "http://biostat.jhsph.edu/~jleek/contact.html"
+lines <- readLines(url)
+str(lines)
+```
+
+```{r}
+nchar(lines[[10]])
+nchar(lines[[20]])
+nchar(lines[[30]])
+nchar(lines[[100]])
+```
+
+
+```{r}
+line_no <- c(10, 20, 30, 100)
+sapply(lines[line_no], nchar)
+```
+
+
+
+### 5
+
+```{r}
+txt <- readLines("../data/getdata_wksst8110.for", skip = 3)
+head(txt)
+```
+
+123456789012345678901234567890
+               Nino1+2      Nino3        Nino34        Nino4
+ Week          SST SSTA     SST SSTA     SST SSTA     SST SSTA
+ 03JAN1990     23.4-0.4     25.1-0.3     26.6 0.0     28.6 0.3
+ 10JAN1990     23.4-0.8     25.2-0.3     26.6 0.1     28.6 0.3
+ 17JAN1990     24.2-0.3     25.3-0.3     26.5-0.1     28.6 0.3
+ 24JAN1990     24.4-0.5     25.5-0.4     26.5-0.1     28.4 0.2
+ 31JAN1990     25.1-0.2     25.8-0.2     26.7 0.1     28.4 0.2
+ 07FEB1990     25.8 0.2     26.1-0.1    
+
+```{r}
+df <- txt[5:length(txt)]  # skip headers
+
+x <- df[1]
+x
+str_sub(x, 29, 32)  # 4th column value
+```
+
+```{r}
+library(stringr)
+myfunc <- function(x) {
+  str_sub(x, 29, 32)  
+}
+
+xx <- list(df)
+sum(as.numeric(myfunc(df)))
+```
+
