@@ -1,0 +1,148 @@
+---
+title: "Week 4"
+output: html_notebook
+---
+
+## Editing Text Variables
+
+```{r}
+fileUrl <- "https://data.baltimorecity.gov/api/views/dz54-2aru/rows.csv?accessType=DOWNLOAD"
+download.file(fileUrl, destfile="./data/cameras.csv", method="curl")
+cameraData <- read.csv("./data/cameras.csv")
+```
+
+
+```{r}
+names(cameraData)
+```
+
+
+```{r}
+tolower(names(cameraData))
+```
+
+
+```{r}
+splitNames <- strsplit(names(cameraData), "\\.")
+splitNames
+```
+
+
+
+```{r}
+splitNames[[7]]
+```
+
+
+
+```{r}
+mylist <- list(letters = c("A", "b", "c"), numers = 1:3, matrix(1:25, ncol = 5))
+mylist
+```
+
+
+```{r}
+splitNames[[6]][1]
+```
+
+
+```{r}
+firstElement <- function(x) { x[1] }
+sapply(mylist, firstElement)
+```
+
+```{r}
+fileUrl1 <- "https://dl.dropboxusercontent.com/u/7710864/data/reviews-apr29.csv"
+fileUrl2 <- "https://dl.dropboxusercontent.com/u/7710864/data/solutions-apr29.csv"
+```
+
+
+```{r}
+testName <- "this_is_a_test"
+gsub("_", "", testName)
+```
+
+
+```{r}
+grep("Alameda", c("Alameda test of Alameda", "test", "Alameda fine"), value=TRUE)
+```
+
+
+```{r}
+library(stringr)
+str_trim("abc lsjsdf ")
+```
+
+
+
+## Regular Expressions I
+
+* ^ 시작
+* $ 끝
+* [] 
+* [0-9][a-zA-Z]
+
+```{r}
+texts <- c("i like basketballs.", "6 and 9", "don't worry... we all die anyway!",
+           "Not in Baghdad", "helicopter under water? hmm")
+grep("[^?.]$", texts)
+```
+
+
+## Regular Expressions II
+
+
+
+## Working with Dates
+
+```{r}
+d2 <- Sys.Date()
+d2
+```
+
+```{r}
+class(d2)
+```
+
+```{r}
+class(d2)
+```
+
+
+```{r}
+format(d2, "%a %b %d")
+```
+
+
+```{r}
+x <- c("1jan1960", "2jan1960", "31mar1960", "30jul1960")
+z <- as.Date(x, "%d%b%Y")
+z
+```
+
+
+```{r}
+as.numeric(z[1] - z[2])
+```
+
+
+```{r}
+library(lubridate)
+ymd("20140108")
+```
+
+```{r}
+ymd_hms("2011-08/03 10:15:03")
+```
+
+
+
+
+
+
+
+
+
+
+
+
