@@ -136,6 +136,15 @@ ymd_hms("2011-08/03 10:15:03")
 ```
 
 
+## Data Resources
+
+- Goverment
+- Gapminder
+- Survey data from US
+- Infochimps
+- Kaggle
+
+
 
 
 

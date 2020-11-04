@@ -1805,13 +1805,14 @@ summary {
 <pre class="r"><code>fileUrl &lt;- &quot;https://data.baltimorecity.gov/api/views/dz54-2aru/rows.csv?accessType=DOWNLOAD&quot;
 download.file(fileUrl, destfile=&quot;./data/cameras.csv&quot;, method=&quot;curl&quot;)</code></pre>
 <!-- rnb-source-end -->
-<!-- rnb-output-begin eyJkYXRhIjoiICAlIFRvdGFsICAgICUgUmVjZWl2ZWQgJSBYZmVyZCAgQXZlcmFnZSBTcGVlZCAgIFRpbWUgICAgVGltZSAgICAgVGltZSAgQ3VycmVudFxuICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgRGxvYWQgIFVwbG9hZCAgIFRvdGFsICAgU3BlbnQgICAgTGVmdCAgU3BlZWRcblxuICAwICAgICAwICAgIDAgICAgIDAgICAgMCAgICAgMCAgICAgIDAgICAgICAwIC0tOi0tOi0tIC0tOi0tOi0tIC0tOi0tOi0tICAgICAwXG4gIDAgICAgIDAgICAgMCAgICAgMCAgICAwICAgICAwICAgICAgMCAgICAgIDAgLS06LS06LS0gLS06LS06LS0gLS06LS06LS0gICAgIDBcbjEwMCAgOTkyNyAgICAwICA5OTI3ICAgIDAgICAgIDAgIDEwMzM5ICAgICAgMCAtLTotLTotLSAtLTotLTotLSAtLTotLTotLSAxMDMyOVxuIn0= -->
+<!-- rnb-output-begin eyJkYXRhIjoiICAlIFRvdGFsICAgICUgUmVjZWl2ZWQgJSBYZmVyZCAgQXZlcmFnZSBTcGVlZCAgIFRpbWUgICAgVGltZSAgICAgVGltZSAgQ3VycmVudFxuICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgRGxvYWQgIFVwbG9hZCAgIFRvdGFsICAgU3BlbnQgICAgTGVmdCAgU3BlZWRcblxuICAwICAgICAwICAgIDAgICAgIDAgICAgMCAgICAgMCAgICAgIDAgICAgICAwIC0tOi0tOi0tIC0tOi0tOi0tIC0tOi0tOi0tICAgICAwXG4gIDAgICAgIDAgICAgMCAgICAgMCAgICAwICAgICAwICAgICAgMCAgICAgIDAgLS06LS06LS0gIDA6MDA6MDEgLS06LS06LS0gICAgIDBcbiAgMCAgICAgMCAgICAwICAgICAwICAgIDAgICAgIDAgICAgICAwICAgICAgMCAtLTotLTotLSAgMDowMDowMSAtLTotLTotLSAgICAgMFxuMTAwICA5OTI3ICAgIDAgIDk5MjcgICAgMCAgICAgMCAgIDM5NzggICAgICAwIC0tOi0tOi0tICAwOjAwOjAyIC0tOi0tOi0tICAzOTgwXG4ifQ== -->
 <pre><code>  % Total    % Received % Xferd  Average Speed   Time    Time     Time  Current
                                  Dload  Upload   Total   Spent    Left  Speed
 
   0     0    0     0    0     0      0      0 --:--:-- --:--:-- --:--:--     0
-  0     0    0     0    0     0      0      0 --:--:-- --:--:-- --:--:--     0
-100  9927    0  9927    0     0  10339      0 --:--:-- --:--:-- --:--:-- 10329</code></pre>
+  0     0    0     0    0     0      0      0 --:--:--  0:00:01 --:--:--     0
+  0     0    0     0    0     0      0      0 --:--:--  0:00:01 --:--:--     0
+100  9927    0  9927    0     0   3978      0 --:--:--  0:00:02 --:--:--  3980</code></pre>
 <!-- rnb-output-end -->
 <!-- rnb-source-begin eyJkYXRhIjoiYGBgclxuY2FtZXJhRGF0YSA8LSByZWFkLmNzdihcIi4vZGF0YS9jYW1lcmFzLmNzdlwiKVxuYGBgIn0= -->
 <pre class="r"><code>cameraData &lt;- read.csv(&quot;./data/cameras.csv&quot;)</code></pre>
@@ -1823,12 +1824,10 @@ download.file(fileUrl, destfile=&quot;./data/cameras.csv&quot;, method=&quot;cur
 <!-- rnb-source-begin eyJkYXRhIjoiYGBgclxubmFtZXMoY2FtZXJhRGF0YSlcbmBgYCJ9 -->
 <pre class="r"><code>names(cameraData)</code></pre>
 <!-- rnb-source-end -->
-<!-- rnb-output-begin eyJkYXRhIjoiWzFdIFwiYWRkcmVzc1wiICAgICAgICAgICAgICAgICAgICAgIFwiZGlyZWN0aW9uXCIgICAgICAgICAgICAgICAgICAgXG5bM10gXCJzdHJlZXRcIiAgICAgICAgICAgICAgICAgICAgICAgXCJjcm9zc1N0cmVldFwiICAgICAgICAgICAgICAgICBcbls1XSBcImludGVyc2VjdGlvblwiICAgICAgICAgICAgICAgICBcIkxvY2F0aW9uLjFcIiAgICAgICAgICAgICAgICAgIFxuWzddIFwiWDIwMTAuQ2Vuc3VzLk5laWdoYm9yaG9vZHNcIiAgIFwiWDIwMTAuQ2Vuc3VzLldhcmRzLlByZWNpbmN0c1wiXG5bOV0gXCJaaXAuQ29kZXNcIiAgICAgICAgICAgICAgICAgICBcbiJ9 -->
-<pre><code>[1] &quot;address&quot;                      &quot;direction&quot;                   
-[3] &quot;street&quot;                       &quot;crossStreet&quot;                 
-[5] &quot;intersection&quot;                 &quot;Location.1&quot;                  
-[7] &quot;X2010.Census.Neighborhoods&quot;   &quot;X2010.Census.Wards.Precincts&quot;
-[9] &quot;Zip.Codes&quot;                   </code></pre>
+<!-- rnb-output-begin eyJkYXRhIjoiWzFdIFwiYWRkcmVzc1wiICAgICAgICAgICAgICAgICAgICAgIFwiZGlyZWN0aW9uXCIgICAgICAgICAgICAgICAgICAgIFwic3RyZWV0XCIgICAgICAgICAgICAgICAgICAgICAgXG5bNF0gXCJjcm9zc1N0cmVldFwiICAgICAgICAgICAgICAgICAgXCJpbnRlcnNlY3Rpb25cIiAgICAgICAgICAgICAgICAgXCJMb2NhdGlvbi4xXCIgICAgICAgICAgICAgICAgICBcbls3XSBcIlgyMDEwLkNlbnN1cy5OZWlnaGJvcmhvb2RzXCIgICBcIlgyMDEwLkNlbnN1cy5XYXJkcy5QcmVjaW5jdHNcIiBcIlppcC5Db2Rlc1wiICAgICAgICAgICAgICAgICAgIFxuIn0= -->
+<pre><code>[1] &quot;address&quot;                      &quot;direction&quot;                    &quot;street&quot;                      
+[4] &quot;crossStreet&quot;                  &quot;intersection&quot;                 &quot;Location.1&quot;                  
+[7] &quot;X2010.Census.Neighborhoods&quot;   &quot;X2010.Census.Wards.Precincts&quot; &quot;Zip.Codes&quot;                   </code></pre>
 <!-- rnb-output-end -->
 <!-- rnb-chunk-end -->
 <!-- rnb-text-begin -->
@@ -1837,12 +1836,10 @@ download.file(fileUrl, destfile=&quot;./data/cameras.csv&quot;, method=&quot;cur
 <!-- rnb-source-begin eyJkYXRhIjoiYGBgclxudG9sb3dlcihuYW1lcyhjYW1lcmFEYXRhKSlcbmBgYCJ9 -->
 <pre class="r"><code>tolower(names(cameraData))</code></pre>
 <!-- rnb-source-end -->
-<!-- rnb-output-begin eyJkYXRhIjoiWzFdIFwiYWRkcmVzc1wiICAgICAgICAgICAgICAgICAgICAgIFwiZGlyZWN0aW9uXCIgICAgICAgICAgICAgICAgICAgXG5bM10gXCJzdHJlZXRcIiAgICAgICAgICAgICAgICAgICAgICAgXCJjcm9zc3N0cmVldFwiICAgICAgICAgICAgICAgICBcbls1XSBcImludGVyc2VjdGlvblwiICAgICAgICAgICAgICAgICBcImxvY2F0aW9uLjFcIiAgICAgICAgICAgICAgICAgIFxuWzddIFwieDIwMTAuY2Vuc3VzLm5laWdoYm9yaG9vZHNcIiAgIFwieDIwMTAuY2Vuc3VzLndhcmRzLnByZWNpbmN0c1wiXG5bOV0gXCJ6aXAuY29kZXNcIiAgICAgICAgICAgICAgICAgICBcbiJ9 -->
-<pre><code>[1] &quot;address&quot;                      &quot;direction&quot;                   
-[3] &quot;street&quot;                       &quot;crossstreet&quot;                 
-[5] &quot;intersection&quot;                 &quot;location.1&quot;                  
-[7] &quot;x2010.census.neighborhoods&quot;   &quot;x2010.census.wards.precincts&quot;
-[9] &quot;zip.codes&quot;                   </code></pre>
+<!-- rnb-output-begin eyJkYXRhIjoiWzFdIFwiYWRkcmVzc1wiICAgICAgICAgICAgICAgICAgICAgIFwiZGlyZWN0aW9uXCIgICAgICAgICAgICAgICAgICAgIFwic3RyZWV0XCIgICAgICAgICAgICAgICAgICAgICAgXG5bNF0gXCJjcm9zc3N0cmVldFwiICAgICAgICAgICAgICAgICAgXCJpbnRlcnNlY3Rpb25cIiAgICAgICAgICAgICAgICAgXCJsb2NhdGlvbi4xXCIgICAgICAgICAgICAgICAgICBcbls3XSBcIngyMDEwLmNlbnN1cy5uZWlnaGJvcmhvb2RzXCIgICBcIngyMDEwLmNlbnN1cy53YXJkcy5wcmVjaW5jdHNcIiBcInppcC5jb2Rlc1wiICAgICAgICAgICAgICAgICAgIFxuIn0= -->
+<pre><code>[1] &quot;address&quot;                      &quot;direction&quot;                    &quot;street&quot;                      
+[4] &quot;crossstreet&quot;                  &quot;intersection&quot;                 &quot;location.1&quot;                  
+[7] &quot;x2010.census.neighborhoods&quot;   &quot;x2010.census.wards.precincts&quot; &quot;zip.codes&quot;                   </code></pre>
 <!-- rnb-output-end -->
 <!-- rnb-chunk-end -->
 <!-- rnb-text-begin -->
@@ -2069,9 +2066,19 @@ z</code></pre>
 <!-- rnb-text-begin -->
 <!-- rnb-text-end -->
 <!-- rnb-chunk-begin -->
-<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxubGlicmFyeShsdWJyaWRhdGUpXG55bWQoXCIyMDE0MDEwOFwiKVxuYGBgIn0= -->
-<pre class="r"><code>library(lubridate)
-ymd(&quot;20140108&quot;)</code></pre>
+<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxubGlicmFyeShsdWJyaWRhdGUpXG5gYGAifQ== -->
+<pre class="r"><code>library(lubridate)</code></pre>
+<!-- rnb-source-end -->
+<!-- rnb-output-begin eyJkYXRhIjoiXG5BdHRhY2hpbmcgcGFja2FnZTog4oCYbHVicmlkYXRl4oCZXG5cblRoZSBmb2xsb3dpbmcgb2JqZWN0cyBhcmUgbWFza2VkIGZyb20g4oCYcGFja2FnZTpiYXNl4oCZOlxuXG4gICAgZGF0ZSwgaW50ZXJzZWN0LCBzZXRkaWZmLCB1bmlvblxuIn0= -->
+<pre><code>
+Attaching package: ‘lubridate’
+
+The following objects are masked from ‘package:base’:
+
+    date, intersect, setdiff, union</code></pre>
+<!-- rnb-output-end -->
+<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxueW1kKFwiMjAxNDAxMDhcIilcbmBgYCJ9 -->
+<pre class="r"><code>ymd(&quot;20140108&quot;)</code></pre>
 <!-- rnb-source-end -->
 <!-- rnb-output-begin eyJkYXRhIjoiWzFdIFwiMjAxNC0wMS0wOFwiXG4ifQ== -->
 <pre><code>[1] &quot;2014-01-08&quot;</code></pre>
@@ -2080,18 +2087,28 @@ ymd(&quot;20140108&quot;)</code></pre>
 <!-- rnb-text-begin -->
 <!-- rnb-text-end -->
 <!-- rnb-chunk-begin -->
-<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxueW1kX2htcyhcIjIwMTEvMDgvMDMgMTA6MTU6MDNcIilcbmBgYCJ9 -->
-<pre class="r"><code>ymd_hms(&quot;2011/08/03 10:15:03&quot;)</code></pre>
+<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxueW1kX2htcyhcIjIwMTEtMDgvMDMgMTA6MTU6MDNcIilcbmBgYCJ9 -->
+<pre class="r"><code>ymd_hms(&quot;2011-08/03 10:15:03&quot;)</code></pre>
 <!-- rnb-source-end -->
 <!-- rnb-output-begin eyJkYXRhIjoiWzFdIFwiMjAxMS0wOC0wMyAxMDoxNTowMyBVVENcIlxuIn0= -->
 <pre><code>[1] &quot;2011-08-03 10:15:03 UTC&quot;</code></pre>
 <!-- rnb-output-end -->
 <!-- rnb-chunk-end -->
 <!-- rnb-text-begin -->
+</div>
+<div id="data-resources" class="section level2">
+<h2>Data Resources</h2>
+<ul>
+<li>Goverment</li>
+<li>Gapminder</li>
+<li>Survey data from US</li>
+<li>Infochimps</li>
+<li>Kaggle</li>
+</ul>
 <!-- rnb-text-end -->
 </div>
 
-<div id="rmd-source-code">LS0tCnRpdGxlOiAiV2VlayA0IgpvdXRwdXQ6IGh0bWxfbm90ZWJvb2sKLS0tCgojIyBFZGl0aW5nIFRleHQgVmFyaWFibGVzCgpgYGB7cn0KZmlsZVVybCA8LSAiaHR0cHM6Ly9kYXRhLmJhbHRpbW9yZWNpdHkuZ292L2FwaS92aWV3cy9kejU0LTJhcnUvcm93cy5jc3Y/YWNjZXNzVHlwZT1ET1dOTE9BRCIKZG93bmxvYWQuZmlsZShmaWxlVXJsLCBkZXN0ZmlsZT0iLi9kYXRhL2NhbWVyYXMuY3N2IiwgbWV0aG9kPSJjdXJsIikKY2FtZXJhRGF0YSA8LSByZWFkLmNzdigiLi9kYXRhL2NhbWVyYXMuY3N2IikKYGBgCgoKYGBge3J9Cm5hbWVzKGNhbWVyYURhdGEpCmBgYAoKCmBgYHtyfQp0b2xvd2VyKG5hbWVzKGNhbWVyYURhdGEpKQpgYGAKCgpgYGB7cn0Kc3BsaXROYW1lcyA8LSBzdHJzcGxpdChuYW1lcyhjYW1lcmFEYXRhKSwgIlxcLiIpCnNwbGl0TmFtZXMKYGBgCgoKCmBgYHtyfQpzcGxpdE5hbWVzW1s3XV0KYGBgCgoKCmBgYHtyfQpteWxpc3QgPC0gbGlzdChsZXR0ZXJzID0gYygiQSIsICJiIiwgImMiKSwgbnVtZXJzID0gMTozLCBtYXRyaXgoMToyNSwgbmNvbCA9IDUpKQpteWxpc3QKYGBgCgoKYGBge3J9CnNwbGl0TmFtZXNbWzZdXVsxXQpgYGAKCgpgYGB7cn0KZmlyc3RFbGVtZW50IDwtIGZ1bmN0aW9uKHgpIHsgeFsxXSB9CnNhcHBseShteWxpc3QsIGZpcnN0RWxlbWVudCkKYGBgCgpgYGB7cn0KZmlsZVVybDEgPC0gImh0dHBzOi8vZGwuZHJvcGJveHVzZXJjb250ZW50LmNvbS91Lzc3MTA4NjQvZGF0YS9yZXZpZXdzLWFwcjI5LmNzdiIKZmlsZVVybDIgPC0gImh0dHBzOi8vZGwuZHJvcGJveHVzZXJjb250ZW50LmNvbS91Lzc3MTA4NjQvZGF0YS9zb2x1dGlvbnMtYXByMjkuY3N2IgpgYGAKCgpgYGB7cn0KdGVzdE5hbWUgPC0gInRoaXNfaXNfYV90ZXN0Igpnc3ViKCJfIiwgIiIsIHRlc3ROYW1lKQpgYGAKCgpgYGB7cn0KZ3JlcCgiQWxhbWVkYSIsIGMoIkFsYW1lZGEgdGVzdCBvZiBBbGFtZWRhIiwgInRlc3QiLCAiQWxhbWVkYSBmaW5lIiksIHZhbHVlPVRSVUUpCmBgYAoKCmBgYHtyfQpsaWJyYXJ5KHN0cmluZ3IpCnN0cl90cmltKCJhYmMgbHNqc2RmICIpCmBgYAoKCgojIyBSZWd1bGFyIEV4cHJlc3Npb25zIEkKCiogXiDsi5zsnpEKKiAkIOuBnQoqIFtdIAoqIFswLTldW2EtekEtWl0KCmBgYHtyfQp0ZXh0cyA8LSBjKCJpIGxpa2UgYmFza2V0YmFsbHMuIiwgIjYgYW5kIDkiLCAiZG9uJ3Qgd29ycnkuLi4gd2UgYWxsIGRpZSBhbnl3YXkhIiwKICAgICAgICAgICAiTm90IGluIEJhZ2hkYWQiLCAiaGVsaWNvcHRlciB1bmRlciB3YXRlcj8gaG1tIikKZ3JlcCgiW14/Ll0kIiwgdGV4dHMpCmBgYAoKCiMjIFJlZ3VsYXIgRXhwcmVzc2lvbnMgSUkKCgoKIyMgV29ya2luZyB3aXRoIERhdGVzCgpgYGB7cn0KZDIgPC0gU3lzLkRhdGUoKQpkMgpgYGAKCmBgYHtyfQpjbGFzcyhkMikKYGBgCgpgYGB7cn0KY2xhc3MoZDIpCmBgYAoKCmBgYHtyfQpmb3JtYXQoZDIsICIlYSAlYiAlZCIpCmBgYAoKCmBgYHtyfQp4IDwtIGMoIjFqYW4xOTYwIiwgIjJqYW4xOTYwIiwgIjMxbWFyMTk2MCIsICIzMGp1bDE5NjAiKQp6IDwtIGFzLkRhdGUoeCwgIiVkJWIlWSIpCnoKYGBgCgoKYGBge3J9CmFzLm51bWVyaWMoelsxXSAtIHpbMl0pCmBgYAoKCmBgYHtyfQpsaWJyYXJ5KGx1YnJpZGF0ZSkKeW1kKCIyMDE0MDEwOCIpCmBgYAoKYGBge3J9CnltZF9obXMoIjIwMTEtMDgvMDMgMTA6MTU6MDMiKQpgYGAKCgoKCgoKCgoKCgoK</div>
+<div id="rmd-source-code">LS0tCnRpdGxlOiAiV2VlayA0IgpvdXRwdXQ6IGh0bWxfbm90ZWJvb2sKLS0tCgojIyBFZGl0aW5nIFRleHQgVmFyaWFibGVzCgpgYGB7cn0KZmlsZVVybCA8LSAiaHR0cHM6Ly9kYXRhLmJhbHRpbW9yZWNpdHkuZ292L2FwaS92aWV3cy9kejU0LTJhcnUvcm93cy5jc3Y/YWNjZXNzVHlwZT1ET1dOTE9BRCIKZG93bmxvYWQuZmlsZShmaWxlVXJsLCBkZXN0ZmlsZT0iLi9kYXRhL2NhbWVyYXMuY3N2IiwgbWV0aG9kPSJjdXJsIikKY2FtZXJhRGF0YSA8LSByZWFkLmNzdigiLi9kYXRhL2NhbWVyYXMuY3N2IikKYGBgCgoKYGBge3J9Cm5hbWVzKGNhbWVyYURhdGEpCmBgYAoKCmBgYHtyfQp0b2xvd2VyKG5hbWVzKGNhbWVyYURhdGEpKQpgYGAKCgpgYGB7cn0Kc3BsaXROYW1lcyA8LSBzdHJzcGxpdChuYW1lcyhjYW1lcmFEYXRhKSwgIlxcLiIpCnNwbGl0TmFtZXMKYGBgCgoKCmBgYHtyfQpzcGxpdE5hbWVzW1s3XV0KYGBgCgoKCmBgYHtyfQpteWxpc3QgPC0gbGlzdChsZXR0ZXJzID0gYygiQSIsICJiIiwgImMiKSwgbnVtZXJzID0gMTozLCBtYXRyaXgoMToyNSwgbmNvbCA9IDUpKQpteWxpc3QKYGBgCgoKYGBge3J9CnNwbGl0TmFtZXNbWzZdXVsxXQpgYGAKCgpgYGB7cn0KZmlyc3RFbGVtZW50IDwtIGZ1bmN0aW9uKHgpIHsgeFsxXSB9CnNhcHBseShteWxpc3QsIGZpcnN0RWxlbWVudCkKYGBgCgpgYGB7cn0KZmlsZVVybDEgPC0gImh0dHBzOi8vZGwuZHJvcGJveHVzZXJjb250ZW50LmNvbS91Lzc3MTA4NjQvZGF0YS9yZXZpZXdzLWFwcjI5LmNzdiIKZmlsZVVybDIgPC0gImh0dHBzOi8vZGwuZHJvcGJveHVzZXJjb250ZW50LmNvbS91Lzc3MTA4NjQvZGF0YS9zb2x1dGlvbnMtYXByMjkuY3N2IgpgYGAKCgpgYGB7cn0KdGVzdE5hbWUgPC0gInRoaXNfaXNfYV90ZXN0Igpnc3ViKCJfIiwgIiIsIHRlc3ROYW1lKQpgYGAKCgpgYGB7cn0KZ3JlcCgiQWxhbWVkYSIsIGMoIkFsYW1lZGEgdGVzdCBvZiBBbGFtZWRhIiwgInRlc3QiLCAiQWxhbWVkYSBmaW5lIiksIHZhbHVlPVRSVUUpCmBgYAoKCmBgYHtyfQpsaWJyYXJ5KHN0cmluZ3IpCnN0cl90cmltKCJhYmMgbHNqc2RmICIpCmBgYAoKCgojIyBSZWd1bGFyIEV4cHJlc3Npb25zIEkKCiogXiDsi5zsnpEKKiAkIOuBnQoqIFtdIAoqIFswLTldW2EtekEtWl0KCmBgYHtyfQp0ZXh0cyA8LSBjKCJpIGxpa2UgYmFza2V0YmFsbHMuIiwgIjYgYW5kIDkiLCAiZG9uJ3Qgd29ycnkuLi4gd2UgYWxsIGRpZSBhbnl3YXkhIiwKICAgICAgICAgICAiTm90IGluIEJhZ2hkYWQiLCAiaGVsaWNvcHRlciB1bmRlciB3YXRlcj8gaG1tIikKZ3JlcCgiW14/Ll0kIiwgdGV4dHMpCmBgYAoKCiMjIFJlZ3VsYXIgRXhwcmVzc2lvbnMgSUkKCgoKIyMgV29ya2luZyB3aXRoIERhdGVzCgpgYGB7cn0KZDIgPC0gU3lzLkRhdGUoKQpkMgpgYGAKCmBgYHtyfQpjbGFzcyhkMikKYGBgCgpgYGB7cn0KY2xhc3MoZDIpCmBgYAoKCmBgYHtyfQpmb3JtYXQoZDIsICIlYSAlYiAlZCIpCmBgYAoKCmBgYHtyfQp4IDwtIGMoIjFqYW4xOTYwIiwgIjJqYW4xOTYwIiwgIjMxbWFyMTk2MCIsICIzMGp1bDE5NjAiKQp6IDwtIGFzLkRhdGUoeCwgIiVkJWIlWSIpCnoKYGBgCgoKYGBge3J9CmFzLm51bWVyaWMoelsxXSAtIHpbMl0pCmBgYAoKCmBgYHtyfQpsaWJyYXJ5KGx1YnJpZGF0ZSkKeW1kKCIyMDE0MDEwOCIpCmBgYAoKYGBge3J9CnltZF9obXMoIjIwMTEtMDgvMDMgMTA6MTU6MDMiKQpgYGAKCgojIyBEYXRhIFJlc291cmNlcwoKLSBHb3Zlcm1lbnQKLSBHYXBtaW5kZXIKLSBTdXJ2ZXkgZGF0YSBmcm9tIFVTCi0gSW5mb2NoaW1wcwotIEthZ2dsZQoKCgoKCgoKCgoKCgo=</div>
 
 
 
