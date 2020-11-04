@@ -11,40 +11,31 @@ download.file(fileUrl, destfile="./data/cameras.csv", method="curl")
 cameraData <- read.csv("./data/cameras.csv")
 ```
 
-
 ```{r}
 names(cameraData)
 ```
 
-
 ```{r}
 tolower(names(cameraData))
 ```
-
 
 ```{r}
 splitNames <- strsplit(names(cameraData), "\\.")
 splitNames
 ```
 
-
-
 ```{r}
 splitNames[[7]]
 ```
-
-
 
 ```{r}
 mylist <- list(letters = c("A", "b", "c"), numers = 1:3, matrix(1:25, ncol = 5))
 mylist
 ```
 
-
 ```{r}
 splitNames[[6]][1]
 ```
-
 
 ```{r}
 firstElement <- function(x) { x[1] }
@@ -56,23 +47,19 @@ fileUrl1 <- "https://dl.dropboxusercontent.com/u/7710864/data/reviews-apr29.csv"
 fileUrl2 <- "https://dl.dropboxusercontent.com/u/7710864/data/solutions-apr29.csv"
 ```
 
-
 ```{r}
 testName <- "this_is_a_test"
 gsub("_", "", testName)
 ```
 
-
 ```{r}
 grep("Alameda", c("Alameda test of Alameda", "test", "Alameda fine"), value=TRUE)
 ```
-
 
 ```{r}
 library(stringr)
 str_trim("abc lsjsdf ")
 ```
-
 
 
 ## Regular Expressions I
@@ -105,11 +92,6 @@ class(d2)
 ```
 
 ```{r}
-class(d2)
-```
-
-
-```{r}
 format(d2, "%a %b %d")
 ```
 
@@ -120,11 +102,9 @@ z <- as.Date(x, "%d%b%Y")
 z
 ```
 
-
 ```{r}
 as.numeric(z[1] - z[2])
 ```
-
 
 ```{r}
 library(lubridate)
@@ -146,12 +126,104 @@ ymd_hms("2011-08/03 10:15:03")
 
 
 
+## Week 4 Quiz
+
+### 1
+
+```{r}
+library(tidyverse)
+raw <- read_csv("../input/getdata_data_ss06hid.csv")
+```
+
+```{r}
+dfname <- names(raw)
+splited <- strsplit(dfname, "wgtp")
+splited[[123]]
+```
+
+```{r}
+df2 <- read_csv("../input/getdata_data_GDP.csv")
+df2
+```
+
+```{r}
+mean(as.numeric(gsub(",", "", df2$X5[5:194])))
+```
+
+```{r}
+cname <- df2$X4
+grep("^United", cname)
+```
 
 
+### 4
 
+```{r}
+df1 <- read_csv("../input/getdata_data_GDP.csv")
+df1
+```
 
+```{r}
+df2 <- read_csv("../input/getdata_data_EDSTATS_Country.csv")
+df2
+```
 
+```{r}
+df1t <-
+  df1 %>% 
+  select(1:5) %>% 
+  slice(5:219) %>% 
+  rename(
+    CountryCode = X1,
+    gdp_rank = `Gross domestic product 2012`,
+    country = X4,
+    gdp = X5
+  ) %>% 
+  mutate(gdp = parse_number(gdp)) %>% 
+  select(-X3)
+df1t
+```
 
+```{r}
+target <- 
+  df1t %>% 
+  left_join(df2)
+target
+```
 
+```{r}
+names(target)
+```
 
+```{r}
+notes <- target$`Special Notes`
+notes
+```
+
+```{r}
+note_fiscal <- notes[grep("[Ff]iscal", notes)]
+note_fiscal
+```
+
+```{r}
+length(grep("June", note_fiscal))
+```
+
+### 5
+
+```{r}
+#install.packages("quantmod")
+library(quantmod)
+amzn = getSymbols("AMZN",auto.assign=FALSE)
+sampleTimes = index(amzn)
+```
+
+```{r}
+sum(year(sampleTimes) == 2012)
+```
+
+```{r}
+d2012 <- sampleTimes[year(sampleTimes) == 2012]
+sum(wday(d2012) == 2)
+```
 
