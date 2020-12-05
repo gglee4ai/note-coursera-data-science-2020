@@ -1,0 +1,142 @@
+---
+title: "Week 1"
+output: html_notebook
+---
+
+```{r}
+#install.packages("kernlab")
+library(kernlab)
+```
+
+```{r}
+data(spam)
+spam
+```
+
+```{r}
+set.seed(3435)
+trainIndicator = rbinom(4601, size = 1, prob = 0.5)
+table(trainIndicator)
+```
+
+```{r}
+table(spam$type)
+```
+
+
+```{r}
+trainSpam <- spam[trainIndicator == 1, ]
+testSpam <- spam[trainIndicator == 0, ]
+```
+
+
+```{r}
+names(trainSpam)
+```
+
+
+```{r}
+trainSpam
+```
+
+
+```{r}
+table(trainSpam$type)
+```
+
+
+```{r}
+plot(trainSpam$capitalAve ~ trainSpam$type)
+```
+
+```{r}
+plot(log10(trainSpam$capitalAve + 1) ~ trainSpam$type)
+```
+
+
+```{r, fig.asp=1, fig.width=4, fig.height=4}
+par(pty="s")
+pairs(log10(trainSpam[, 1:4] + 1))
+```
+
+
+```{r}
+hCluster <- hclust(dist(t(trainSpam[, 1:57])))
+plot(hCluster)
+```
+
+```{r, fig.width=4, fig.height=4}
+hClusterUpdated <- hclust(dist(t(log10(trainSpam[, 1:55] + 1))))
+plot(hClusterUpdated)
+```
+
+
+```{r}
+trainSpam$numType <- as.numeric(trainSpam$type) - 1
+costFunction <- function(x, y) sum(x != (y > 0.5))
+cvError = rep(NA, 55)
+library(boot)
+for (i in 1:55) {
+  lmFormula = reformulate(names(trainSpam)[i], response = "numType")
+  glmFit = glm(lmFormula, family = "binomial", data = trainSpam)
+  cvError[i] = cv.glm(trainSpam, glmFit, costFunction, 2)$delta[2]
+}
+```
+
+
+```{r}
+names(trainSpam)[which.min(cvError)]
+```
+
+
+```{r}
+predictionModel = glm(numType ~ charDollar, family = "binomial", data = trainSpam)
+```
+
+
+```{r}
+predictionTest <- predict(predictionModel, testSpam)
+predictedSpam <- rep("nonspam", dim(testSpam)[1])
+
+predictedSpam[predictionModel$fitted.values > 0.5] <- "spam"
+predictedSpam
+```
+
+
+```{r}
+table(predictedSpam, testSpam$type)
+```
+
+
+```{r}
+## Error rate
+(61 + 458)/(1346 + 458 + 61 + 449)
+```
+
+
+## Data analysis files
+
+* Data
+  - Raw data
+  - Processed data
+* Figures
+  - Exploratory figures
+  - Final figures
+* R code
+  - Raw/unused scripts
+  - Final scripts
+  - R Markdown files
+* Text
+  - README files
+  - Text of analysis / report
+
+
+
+
+
+
+
+
+
+
+

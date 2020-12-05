@@ -1,0 +1,287 @@
+---
+title: "Ranking of national weather events affecting population and economic damage"
+author: "Gyeong-Geun LEE"
+date: '2020-12-03'
+output:
+  pdf_document: default
+  html_document: default
+---
+
+# Synopsis
+
+This analysis summarizes the weather events that occurred in the U.S. from 1966 to 2011, resulting in population health and property damage.
+10 Major weather events were listed and the percentage were summarized. 
+
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(message = FALSE, warning = FALSE, echo = TRUE)
+options(max.print = 50)
+```
+
+
+# Data processing
+
+Basic data processing framework is loaded.
+
+```{r, message=FALSE}
+library(tidyverse)
+library(patchwork)
+```
+
+
+The DB was downloaded and converted into csv file.
+
+```{r, cache=TRUE}
+db_link <- "https://d396qusza40orc.cloudfront.net/repdata%2Fdata%2FStormData.csv.bz2"
+dbfile <- tempfile()
+download.file(db_link, dbfile)
+raw <- read.csv(dbfile)
+unlink(dbfile)
+```
+
+
+All names in the column are converted to lowercase for convenience.
+
+```{r}
+df0 <- 
+  raw %>% 
+  rename_all(tolower)
+head(df0)
+```
+
+The raw data was glimpsed in order to understand the rough structure of the data.
+
+```{r}
+glimpse(df0)
+```
+
+
+Important features were seleted to analyze.
+
+* `state`: state
+* `bgn_date`" begin date
+* `evtype`: event type
+* `fatalities`
+* `injuries`
+* `propdmg`: property damage
+* `propdmgexp`: exponent of property damage
+* `cropdmg`: crop damage
+* `cropdmgexp`: exponent of crop damage
+
+```{r}
+# selected features
+df1 <- 
+  df0 %>% 
+  select(
+    state,
+    bgn_date,
+    evtype, 
+    fatalities, injuries, 
+    propdmg, propdmgexp, cropdmg, cropdmgexp
+  ) %>% 
+  mutate(event_date = lubridate::mdy_hms(bgn_date)) %>% 
+  relocate(evtype, state, event_date) %>% 
+  select(-bgn_date)
+```
+
+In order to cut the limit of the year, the event number was shown according to year.
+
+```{r}
+df1 %>% 
+  mutate(year = lubridate::year(event_date)) %>% 
+  count(year) %>% 
+  ggplot(aes(year, n)) +
+  geom_point() +
+  labs(x = "# of events")
+```
+
+
+Since the previous data is less reliable, only data after 1990 were considered.
+
+```{r}
+df1 <- 
+  df1 %>% 
+  filter(lubridate::year(event_date) >= 1990)
+```
+
+
+The NA data were removed.
+
+```{r}
+sum(!complete.cases(df1))
+```
+
+
+The exponent of property damage and crop damage were anlayzed
+
+```{r}
+table(df1$propdmgexp)
+```
+
+
+```{r}
+table(df1$cropdmgexp)
+```
+
+
+The exponent was converted into numbers, and incoporated to mantissa.
+
+```{r}
+convert_exp <- function(s) {
+  #s <- as.character()
+  r <-
+    case_when(
+      s %in% c("", "-", "?", "+", "0", "h", "H") ~ "0",
+      s %in% c("k", "K") ~ "3",
+      s %in% c("m", "M") ~ "6",
+      s %in% c("b", "B") ~ "9",
+      s %in% c("1", "2", "3", "4", "5", "6", "7", "8") ~ s,
+      TRUE ~ "0"
+    )
+  10^as.numeric(r)
+}
+
+df1 <-
+  df1 %>% 
+  mutate(
+    propdmgexp2 = convert_exp(propdmgexp),
+    cropdmgexp2 = convert_exp(cropdmgexp),
+    prop = propdmg * propdmgexp2,           # finally converted value
+    crop = cropdmg * cropdmgexp2            # finally converted value
+  ) %>% 
+  relocate(evtype:injuries, prop, crop)
+df1
+```
+
+
+# Results
+
+## events vs population health
+
+The total was summarized for each event type.
+
+```{r}
+df1_population <-
+  df1 %>% 
+  group_by(evtype) %>% 
+  summarize(
+    fatalities = sum(fatalities),
+    injuries = sum(injuries),
+    .groups = "drop_last"
+  )
+df1_population
+```
+
+
+The fatalities and injuries were expressed in a figure.
+
+```{r, fig.width=8, fig.height=4}
+g1 <-
+  df1_population %>%
+  mutate(prop = fatalities / sum(fatalities)) %>% 
+  arrange(desc(fatalities)) %>% 
+  slice(1:10) %>%
+  ggplot(aes(reorder(evtype, fatalities), fatalities)) +
+  geom_bar(stat = "identity") +
+  geom_text(
+    aes(label = paste(format(round(prop * 100, 1), nsmall = 1), "%")),
+    hjust = -0.1, 
+    size = 3
+  ) +
+  scale_y_continuous(limits = c(0, max(df1_population$fatalities)*1.2)) +
+  coord_flip() +
+  labs(x = "", y = "Fatalities")
+
+g2 <-
+  df1_population %>%
+  mutate(prop = injuries / sum(injuries)) %>% 
+  arrange(desc(injuries)) %>% 
+  slice(1:10) %>% 
+  ggplot(aes(reorder(evtype, injuries), injuries)) +
+  geom_bar(stat = "identity") +
+  geom_text(
+    aes(label = paste(format(round(prop * 100, 1), nsmall = 1), "%")),
+    hjust = -0.1, 
+    size = 3
+  ) +
+  scale_y_continuous(limits = c(0, max(df1_population$injuries)*1.2)) +
+  coord_flip() +
+  labs(x = "", y = "Injuries")
+
+g1 + g2 +
+  plot_annotation(title = "10 Major weather events affecting population health")
+```
+
+
+## events vs economic consequences
+
+```{r}
+df1_economics <-
+  df1 %>% 
+  group_by(evtype) %>% 
+  summarize(
+    prop_sum = sum(prop),
+    crop_sum = sum(crop),
+    .groups = "drop_last"
+  )
+df1_economics
+```
+
+
+The population damage and crop damage were expressed in a figure.
+
+```{r, fig.width=8, fig.height=4}
+temp <- 
+  df1_economics %>%
+  mutate(
+    dmg = prop_sum / 1e6,
+    prop = dmg / sum(dmg)
+  )
+  
+g1 <-
+  temp %>% 
+  arrange(desc(prop_sum)) %>% 
+  slice(1:10) %>% 
+  ggplot(aes(reorder(evtype, dmg), dmg)) +
+  geom_bar(stat = "identity") +
+  geom_text(
+    aes(label = paste(format(round(prop * 100, 1), nsmall = 1), "%")),
+    hjust = -0.1, 
+    size = 3
+  ) +
+  scale_y_continuous(
+    limits = c(0, max(temp$dmg)*1.2),
+  ) +
+  coord_flip() +
+  labs(x = "", y = "Property damage $ (×1000)")
+
+temp <- 
+  df1_economics %>%
+  mutate(
+    dmg = crop_sum / 1e6,
+    prop = dmg / sum(dmg)
+  )
+  
+g2 <-
+  temp %>%
+  arrange(desc(crop_sum)) %>% 
+  slice(1:10) %>% 
+  ggplot(aes(reorder(evtype, dmg), dmg)) +
+  geom_bar(stat = "identity") +
+  geom_text(
+    aes(label = paste(format(round(prop * 100, 1), nsmall = 1), "%")),
+    hjust = -0.1, 
+    size = 3
+  ) +
+  scale_y_continuous(
+    limits = c(0, max(temp$dmg)*1.2),
+  ) +
+  coord_flip() +
+  labs(x = "", y = "Crop damage $ (×1000)")
+
+g1 + g2 +
+  plot_annotation(title = "10 Major weather events affecting economic consequences")
+```
+
+
+

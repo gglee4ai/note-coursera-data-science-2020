@@ -1,0 +1,58 @@
+---
+title: "Week 2"
+output: html_notebook
+---
+
+
+# Week 2
+
+*This text will appear itaclic*
+
+
+## Sencond 
+
+### Third
+
+I spend so much time reading [R blogers][1] and [Simply Statistics][2]!
+
+[1]: http://www.r-bloggers.com "R Bloggers"
+[2]: http://simplystatistics.org "Simply Statistics"
+
+First line
+Second list
+
+First line  
+Second list `r date()`
+
+
+```{r}
+data("airquality")
+summary(airquality)
+```
+
+Let's first make a pairs plot of ...
+
+
+```{r}
+pairs(airquality)
+```
+
+
+```{r}
+fit <- lm(Ozone ~ Wind + Solar.R + Temp, data = airquality)
+summary(fit)
+```
+
+
+
+Here's a unordered list:
+
+* First element
+* Second element
+
+
+```{r}
+x <- rnorm(10000)
+mean(x)
+```
+
