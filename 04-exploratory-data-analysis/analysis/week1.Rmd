@@ -1,0 +1,161 @@
+---
+title: "Week 1"
+output: html_notebook
+---
+
+
+# Base Plotting System
+
+```{r}
+library(datasets)
+```
+
+
+```{r}
+hist(airquality$Ozone)
+```
+
+
+```{r}
+with(airquality, plot(Wind, Ozone))
+```
+
+
+```{r}
+airquality <- transform(airquality, Month = factor(Month))
+boxplot(Ozone ~ Month, airquality, xlab = "Month", ylab = "Ozone (ppb)")
+```
+
+
+```{r}
+dplyr::glimpse(par())
+```
+
+
+```{r}
+with(airquality, plot(Wind, Ozone))
+title(main = "Ozone and Wind in New York City")
+```
+
+
+```{r}
+with(airquality, plot(Wind, Ozone, main = "Ozone and wind in New York City"), type = "n")
+with(subset(airquality, Month == 5), points(Wind, Ozone, col = "blue"))
+with(subset(airquality, Month != 5), points(Wind, Ozone, col = "red"))
+legend("topright", pch = 1, col = c("blue", "red"), legend = c("May", "Other Months"))
+```
+
+
+```{r}
+with(airquality, plot(Wind, Ozone, main = "Ozone and Wind in New York City", pch = 20))
+model <- lm(Ozone ~ Wind, airquality)
+abline(model, lwd = 2)
+```
+
+
+```{r}
+par(mfrow = c(1, 2))
+with(airquality, {
+  plot(Wind, Ozone, main = "Ozone and Wind")
+  plot(Solar.R, Ozone, main = "Ozone and Solar Radiation")
+})
+```
+
+
+```{r}
+par(mfrow = c(1, 3), mar = c(4, 4, 2, 1), oma = c(0, 0, 2, 0))
+with(airquality, {
+  plot(Wind, Ozone, main = "Ozone and Wind")
+  plot(Solar.R, Ozone, main = "Ozone and Solar Radiation")
+  plot(Temp, Ozone, main = "Ozone and Temperature")
+  mtext("Ozone and Weather in New York City", outer = TRUE)
+})
+```
+
+
+# Base Plotting Demonstration
+
+```{r}
+x <- rnorm(100)
+hist(x)
+```
+
+
+```{r}
+par(pty = "s")
+y <- rnorm(100)
+plot(x, y)
+```
+
+
+```{r}
+par(pty = "s")
+z <- rnorm(100)
+plot(x, z)
+```
+
+
+```{r}
+example(points)
+```
+
+
+```{r}
+set.seed(123123)
+par(pty = "s")
+x <- rnorm(100)
+y <- rnorm(100)
+plot(x, y, pch = 20, xlab = "Weight", ylab = "Height")
+title("Scatterplot")
+text(-2, -2, "Label")
+legend("topleft", legend = "Data", pch = 20)
+fit <- lm(y ~ x)
+abline(fit, lwd = 2, col = "blue")
+```
+
+```{r}
+z <- rpois(100, 2)
+par(mfrow = c(1, 2))
+plot(x, y, pch = 20)
+plot(x, z, pch = 19)
+```
+
+
+# Graphics Devices in R
+
+```{r}
+with(faithful, plot(eruptions, waiting))
+title(main = "Old Faithful Geyser data")
+```
+
+```{r}
+png(file = "myplot.png")
+with(faithful, plot(eruptions, waiting))
+title(main = "Old Faithful Geyser data")
+dev.off()
+```
+
+
+```{r}
+with(faithful, plot(eruptions, waiting))
+title(main = "Old Faithful Geyser data")
+dev.copy(svg, file = "geyserplot.svg")
+dev.off()
+```
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
