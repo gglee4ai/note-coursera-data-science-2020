@@ -1,0 +1,119 @@
+---
+title: "Week2"
+date: 2020-12-09
+output: html_notebook
+---
+
+
+## lattice
+
+```{r}
+library(lattice)
+```
+
+
+```{r}
+xyplot(Ozone ~ Wind, data = airquality)
+```
+
+
+```{r}
+airquality <- transform(airquality, Month = factor(Month))
+xyplot(Ozone ~ Wind | Month, data = airquality, layout = c(5, 1))
+```
+
+
+```{r}
+p <- xyplot(Ozone ~ Wind, data = airquality)
+print(p)
+```
+
+
+```{r}
+set.seed(10)
+x <- rnorm(100)
+f <- rep(0:1, each = 50)
+y <- x + f - f * x + rnorm(100, sd = 0.5)
+f <- factor(f, labels = c("Group 1", "Group 2"))
+xyplot(y ~ x | f, layout = c(2, 1))
+```
+
+
+```{r}
+xyplot(
+  y ~ x | f,
+  layout = c(2, 1),
+  panel = function(x, y, ...) {
+    panel.xyplot(x, y, ...)
+    panel.abline(h = median(y), lty = 2)
+})
+```
+
+
+```{r}
+xyplot(
+  y ~ x | f,
+  layout = c(2, 1),
+  panel = function(x, y, ...) {
+    panel.xyplot(x, y, ...)
+    panel.lmline(x, y, col = 2)
+})
+```
+
+
+## ggplot2
+
+```{r}
+library(ggplot2)
+str(mpg)
+```
+
+
+```{r}
+qplot(displ, hwy, data = mpg)
+```
+
+
+```{r}
+qplot(displ, hwy, data = mpg, color = drv)
+```
+
+
+```{r}
+qplot(displ, hwy, data = mpg, geom = c("point", "smooth"))
+```
+
+
+```{r}
+qplot(hwy, data = mpg, fill = drv)
+```
+
+
+```{r}
+qplot(displ, hwy, data = mpg, facets = ~drv)
+```
+
+
+```{r}
+qplot(hwy, data = mpg, facets = drv ~ ., binwidth = 2)
+```
+
+
+```{r}
+#download.file("https://github.com/jtleek/modules/blob/master/04_ExploratoryAnalysis/PlottingLattice/maacs_env.rds", destfile = "maacs_env.rds")
+maacs <- readRDS("../input/maacs_env.rds")
+str(maacs)
+```
+
+
+```{r}
+qplot(log(no2), data = maacs)
+```
+
+```{r}
+names(maacs)
+```
+
+
+
+
