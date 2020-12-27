@@ -1,0 +1,224 @@
+---
+title: "Peer-graded Assignment: Course Project 2"
+date: 2020-12-26
+output: html_notebook
+---
+
+
+```{r}
+options(paged.print = FALSE, max.print = 100)
+```
+
+
+```{r}
+library(tidyverse)
+```
+
+
+```{r}
+nei <- readRDS("summarySCC_PM25.rds")
+scc <- readRDS("Source_Classification_Code.rds")
+```
+
+
+```{r}
+head(scc)
+```
+
+
+```{r}
+glimpse(scc)
+```
+
+
+```{r}
+nei
+```
+
+
+```{r}
+table(nei$year)
+```
+
+
+# plot 1
+
+```{r}
+total_emissions <-
+  nei %>% 
+  group_by(year) %>% 
+  summarize(total = sum(Emissions))
+total_emissions
+```
+
+
+```{r}
+# plot 1
+with(total_emissions, 
+     barplot(total / 1e3, names.arg = year, 
+             ylab = "Total emissions, kilo-tons", 
+             main = "PM2.5 from US", 
+             ylim = c(0, 8000)))
+```
+
+
+# plot 2
+
+```{r}
+baltimore <- 
+  nei %>% 
+  filter(fips == "24510")
+baltimore
+```
+
+
+```{r}
+baltimore_total <-
+  baltimore %>% 
+  group_by(year) %>% 
+  summarize(total = sum(Emissions))
+baltimore_total
+```
+
+
+```{r}
+with(baltimore_total, 
+     barplot(total / 1e3, names.arg = year, 
+             ylab = "Total emissions, kilo-tons", 
+             main = "Total PM2.5 from Baltimore city", 
+             ylim = c(0, 4)))
+```
+
+
+# plot 3
+
+```{r}
+baltimore %>% 
+  group_by(type, year) %>% 
+  summarize(sum = sum(Emissions)) %>% 
+  ggplot(aes(year, sum, color = type)) +
+  geom_point() +
+  geom_line() +
+  ylab("Total emissions, tons")
+```
+
+
+# plot 4
+
+
+```{r}
+glimpse(nei)
+```
+
+```{r}
+table(nei$SCC)
+```
+
+
+```{r}
+glimpse(scc)
+```
+
+
+```{r}
+table(scc$Data.Category)
+```
+
+
+```{r}
+table(scc$SCC.Level.One)
+```
+
+```{r}
+scc_coal_combustion <-
+  scc %>% 
+  filter(
+    str_detect(SCC.Level.One, regex('combustion', ignore_case = T)),
+    str_detect(SCC.Level.Four, regex('coal', ignore_case = T))
+  )
+scc_coal_combustion
+```
+
+```{r}
+cc <- scc_coal_combustion$SCC
+length(cc)
+```
+
+
+```{r}
+nei %>% 
+  filter(SCC %in% cc) %>% 
+  group_by(year) %>% 
+  summarize(total = sum(Emissions)) %>% 
+  ggplot(aes(year, total)) +
+  geom_point() +
+  geom_line() +
+  labs(x = "Year", y = "Total emission, tons", 
+       title = "Coal combustion-related sources")
+```
+
+```{r}
+scc
+```
+
+
+```{r}
+scc %>% 
+  filter(str_detect(Data.Category, "Onroad")) %>% 
+  print(max = 1000)
+```
+
+
+
+```{r}
+glimpse(baltimore)
+```
+
+```{r}
+table(scc$EI.Sector)
+```
+
+
+```{r}
+motor_vehicle_scc <-
+  scc %>% 
+  filter(EI.Sector %in% c("Mobile - On-Road Diesel Heavy Duty Vehicles", 
+                          "Mobile - On-Road Diesel Light Duty Vehicles", 
+                          "Mobile - On-Road Gasoline Heavy Duty Vehicles", 
+                          "Mobile - On-Road Gasoline Light Duty Vehicles"))
+```
+
+
+```{r}
+baltimore %>% 
+  filter(SCC %in% motor_vehicle_scc$SCC) %>% 
+  group_by(year) %>% 
+  summarize(total = sum(Emissions)) %>%
+  ggplot(aes(year, total)) +
+  geom_point() +
+  geom_line() +
+  labs(x = "Year", y = "Total emission, tons", 
+       title = "Coal combustion-related sources")
+```
+
+
+```{r}
+ny_ba <-
+  nei %>% 
+  filter(
+    fips %in% c("24510", "06037"),
+    SCC %in% motor_vehicle_scc$SCC
+  ) %>% 
+  group_by(fips, year) %>% 
+  summarize(total = sum(Emissions))
+ny_ba
+```
+
+
+```{r}
+ny_ba %>% 
+  ggplot(aes(year, total, color = fips)) +
+  geom_point() +
+  geom_line()
+```
+
