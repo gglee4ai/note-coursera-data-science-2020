@@ -1,0 +1,105 @@
+---
+title: 'Part 1: Simulation Exercise Instructions'
+author: "Gyeong-Geun LEE"
+output:
+  html_notebook: default
+  pdf_document: default
+---
+
+
+# Overview
+
+This report shows a simple example of the central limit theorem using an exponential distribution.
+
+
+# Simultation
+
+This simultation repeats 1000 times to calculate sample distrubition
+
+```{r}
+library(ggplot2)
+#set.seed(131)
+n <- 40        # no of samples
+lambda <- 0.2  # rate of exponential distribution
+nsim <- 10000   # no of simulation
+
+rexp_matrix <- matrix(rexp(n * nsim, rate = lambda), nrow = nsim, ncol = n)
+dim(rexp_matrix)
+```
+
+```{r}
+sim_means <- rowMeans(rexp_matrix)
+head(sim_means)
+```
+
+
+# Mean comparison
+
+This is the mean of the samples means of my simulation results.
+
+```{r}
+mean_mns <- mean(sim_means)
+mean_mns
+```
+
+This is theoretical eman of exponention distribution.
+
+```{r}
+theoretical_mean <- 1 / lambda
+theoretical_mean
+```
+
+Two values are very similar. 
+
+```{r}
+ggplot(data = data.frame(mean = sim_means),  aes(mean)) +
+  geom_histogram(aes(mean), color = "white", bins = 30) +
+  geom_vline(xintercept = mean_mns, color = "blue") +
+  geom_vline(xintercept = theoretical_mean, color = "red") 
+```
+
+
+
+# Variance comparision
+
+This is the variance of the samples means of my simulation results.
+
+```{r}
+var_mns <- var(sim_means)
+var_mns
+```
+
+This is theoretical variance of exponention distribution with n samples.
+
+```{r}
+theoretical_var <- (1 / (lambda^2)) / n
+theoretical_var
+```
+
+Two values are very similar. 
+
+This graph shows limit of 95% quantile of the mean +- 2 * sd.
+
+```{r}
+ggplot(data = data.frame(mean = sim_means),  aes(mean)) +
+  geom_histogram(aes(mean), color = "white", bins = 30) +
+  geom_vline(xintercept = mean_mns + 2 * sqrt(var_mns), color = "blue") +
+  geom_vline(xintercept = mean_mns - 2 * sqrt(var_mns), color = "blue") +
+  geom_vline(xintercept = theoretical_mean + 2 * sqrt(theoretical_var), color = "red") +
+  geom_vline(xintercept = theoretical_mean - 2 * sqrt(theoretical_var), color = "red") 
+```
+
+# Distribution
+
+The figure represents the Q-Q plot of samples means. There is a close similarity between sim_means and normal distribution represend with red line.
+
+```{r}
+qqnorm(sim_means)
+qqline(sim_means, col = "red")
+```
+
+
+
+
+
+

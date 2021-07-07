@@ -1,0 +1,148 @@
+---
+title: "Part 2: Basic Inferential Data Analysis Instructions"
+author: "Gyeong-Geun LEE"
+output: html_notebook
+---
+
+
+# setup 
+
+```{r}
+library(tidyverse)   # load basic tools
+
+df <- ToothGrowth    # load data
+df
+```
+
+# EDA
+
+The interaction between supp and dose was expressed as boxplots. As figures shows, the dose affects the length of tooth. In case low dose, Vitamin C (VC) act more effectively compared to Orange juice (OJ).
+
+```{r}
+df %>% 
+  ggplot(aes(dose, len)) +
+  geom_boxplot(aes(color = interaction(supp, dose))) +
+  labs(x = "Dose", y = "Length of tooth") +
+  theme(legend.title = element_blank())
+```
+
+
+
+# Basic summary of the data
+
+Five numers of data was obtained, and sd was also calculated.
+
+```{r}
+df %>% 
+  group_by(supp, dose) %>% 
+  summarize(
+    mean = mean(len),
+    sd = sd(len),
+    min = min(len),
+    Q1 = quantile(len, 0.25),
+    median = median(len),
+    Q3 = quantile(len, 0.75),
+    max = max(len),
+    .groups = "drop"
+  )
+```
+
+
+# Hypothesis tests
+
+all conditions are splited.
+
+```{r}
+vc0.5 <- df %>% filter(supp == "VC", dose == 0.5) %>% pull(len)
+vc1.0 <- df %>% filter(supp == "VC", dose == 1.0) %>% pull(len)
+vc2.0 <- df %>% filter(supp == "VC", dose == 2.0) %>% pull(len)
+oj0.5 <- df %>% filter(supp == "OJ", dose == 0.5) %>% pull(len)
+oj1.0 <- df %>% filter(supp == "OJ", dose == 1.0) %>% pull(len)
+oj2.0 <- df %>% filter(supp == "OJ", dose == 2.0) %>% pull(len)
+```
+
+
+## Comparision between supplement at the same dose
+
+### dose = 0.5
+
+The p-value is 0.005304, and null hypothesis was rejected.
+
+```{r}
+t.test(vc0.5, oj0.5, alternative = "two.sided", var.equal = TRUE)
+```
+
+### dose = 1.0
+
+The p-value is 0.0007807, and null hypothesis is rejected.
+
+```{r}
+t.test(vc1.0, oj1.0, alternative = "two.sided", var.equal = TRUE)
+```
+
+
+### dose = 2.0
+
+The p-value is 0.9637, and null hypothesis can not be rejected.
+
+```{r}
+t.test(vc2.0, oj2.0, alternative = "two.sided", var.equal = TRUE)
+```
+
+
+## Comparision between dose at the same supplement
+
+### Vitamin C
+
+Comparing dose 0.5 to 1.0, the p-value is 6.492e-07, and null hypothesis is rejected.
+
+```{r}
+t.test(vc0.5, vc1.0, alternative = "two.sided", var.equal = TRUE)
+```
+
+
+Comparing dose 1.0 to 2.0, the p-value is 3.398e-05, and null hypothesis is rejected.
+
+```{r}
+t.test(vc1.0, vc2.0, alternative = "two.sided", var.equal = TRUE)
+```
+
+### Orange juice
+
+Comparing dose 0.5 to 1.0, the p-value is 8.358e-05, and null hypothesis is rejected.
+
+```{r}
+t.test(oj0.5, oj1.0, alternative = "two.sided", var.equal = TRUE)
+```
+
+Comparing dose 1.0 to 2.0, the p-value is 0.03736, and null hypothesis is rejected.
+
+```{r}
+t.test(oj1.0, oj2.0, alternative = "two.sided", var.equal = TRUE)
+```
+
+
+# Conclusion
+
+1. Vitamin C is more effective than Orange juice to increase tooth length.
+2. As the dose increases, the effect of supplements increases.
+
+All data was assumed to be follow t-distribution.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
